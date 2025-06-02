@@ -1,0 +1,6 @@
+services:
+  app:
+    build:
+      .
+    ports:
+      - "8763:7777"
