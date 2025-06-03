@@ -4,10 +4,10 @@ from .models import EmailTask
 from .tasks import send_emails_task
 
 def send_emails(request):
-    if request.method == 'POST':
-        recipients = request.POST.get('recipients', '')
-        subject = request.POST.get('subject', '')
-        body = request.POST.get('body', '')
+    if request.method == 'GET':
+        recipients = request.POST.get('recipients', '123')
+        subject = request.POST.get('subject', '123')
+        body = request.POST.get('body', '123')
         
         email_task = EmailTask.objects.create(
             recipients=recipients,
@@ -20,4 +20,4 @@ def send_emails(request):
         
         return JsonResponse({'status': 'success', 'task_id': email_task.id})
     
-    return render(request, 'mailer/send_form.html')
+    return render(request, 'send_form.html')
