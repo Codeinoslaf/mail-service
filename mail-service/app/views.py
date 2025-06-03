@@ -1,25 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from .models import Email
+from .models import EmailTask
 from .tasks import send_emails_task
 
-
 def send_emails(request):
-
     if request.method == 'POST':
+        recipients = request.POST.get('recipients', '')
         subject = request.POST.get('subject', '')
         body = request.POST.get('body', '')
-        create_at = request.POST.get('create_at', '')
-
-        email_task = Email.objects.create(
+        
+        email_task = EmailTask.objects.create(
+            recipients=recipients,
             subject=subject,
-            body=body,
-            create_at=create_at
+            body=body
         )
-
+        
         # Запускаем асинхронную задачу
         send_emails_task.delay(email_task.id)
-
+        
         return JsonResponse({'status': 'success', 'task_id': email_task.id})
-
-    return render(request, 'templates/send_form.html') # ТАК?
+    
+    return render(request, 'mailer/send_form.html')
