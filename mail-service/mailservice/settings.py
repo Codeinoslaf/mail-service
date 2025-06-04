@@ -117,3 +117,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CELERY_BROKER_URL = 'amqp://user:pass@localhost:5672//'
 CELERY_RESULT_BACKEND = 'rpc://'
 CELERY_CACHE_BACKEND = 'django-cache'
+
+#smtp или почта
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.timeweb.ru'  # SMTP-сервер TimeWeb
+EMAIL_PORT = 587  # Порт для TLS (может быть 465 для SSL)
+EMAIL_USE_TLS = True  # Использовать TLS (для порта 587)
+# EMAIL_USE_SSL = True  # Если используете порт 465, раскомментируйте эту строку и закомментируйте EMAIL_USE_TLS
+EMAIL_HOST_USER = 'admin@ar-ucheba.ru'  # Ваш email на TimeWeb
+EMAIL_HOST_PASSWORD = 'gxgmsdt4s9'  # Пароль от почты
+DEFAULT_FROM_EMAIL = 'admin@ar-ucheba.ru'  # Email отправителя по умолчанию
+SERVER_EMAIL = 'admin@ar-ucheba.ru'  # Email для ошибок сервера
