@@ -1,9 +1,11 @@
-from datetime import timezone
+from datetime import datetime
 from django.db import models
+
 
 
 class Status(models.Model):
     name = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
 
     class Meta:
         verbose_name = 'Статус'
@@ -12,8 +14,9 @@ class Status(models.Model):
 
 class Task(models.Model):
     subject = models.CharField(max_length=255)
-    body = models.TextField(default='')
-    created_at = models.DateTimeField(default=timezone)
+    body = models.TextField()
+    created_at = models.DateTimeField(default=datetime.now())
+    recipient_list = models.TextField()
 
     class Meta:
         verbose_name = 'Задание'
@@ -24,8 +27,8 @@ class Task(models.Model):
 class Email(models.Model):
     recipient = models.TextField(help_text="Одна почта получателя")
     send_at = models.DateTimeField(auto_now_add=True)
-    status = models.ForeignKey(Status, on_delete=models.CASCADE)
-    subject = models.ForeignKey(Task, on_delete=models.CASCADE, default='')
+    #status = models.ForeignKey(Status, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"Почтовое письмо отправлено {self.recipient} - {self.subject}"
@@ -33,5 +36,4 @@ class Email(models.Model):
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
-
 

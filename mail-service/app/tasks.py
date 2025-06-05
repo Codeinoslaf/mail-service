@@ -5,24 +5,21 @@ from .models import Email, Status
 
 @shared_task
 def send_emails_task(email_id):
+    email = Email.objects.get(id=email_id)
     try:
-        email = Email.objects.get(id=email_id)
-        task = email.subject
-
         send_mail(
-            task.subject,
-            task.body,
+            email.task.subject,
+            email.task.body,
             'admin@ar-ucheba.ru',
-            email.recipient,
+            [email.recipient],
             fail_silently=False,
         )
-        email.status = Status.objects.get(name='Отправлено')
+        #email.status = Status.objects.get(name='Отправлено')
         email.save()
 
         print("-------------------------------------")
-        return f"Сообщение отправлено на {email.recipient}"
+        return f"Сообщение отправлено на "
 
     except Exception as e:
-        email.status = Status.objects.get(name='Ошибка!!!')
-        email.save()
+
         return f"Не удалось отрпавить сообщение {str(e)}"

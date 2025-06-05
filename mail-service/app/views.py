@@ -1,25 +1,29 @@
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
-from .models import Email
+from .models import *
 from .tasks import send_emails_task
 
 @api_view(['POST'])
 def send_emails(request):
-    recipients = request.POST.get('recipients', '123')
-    subject = request.POST.get('subject', '123')
-    body = request.POST.get('body', '123')
+    recipients = request.data['recipients']
+    subject = request.data['subject']
+    body = request.data['body']
 
-    email_task = Email.objects.create(
-        recipients=recipients,
-        subject=subject,
-        body=body
-    )
+    task = Task.objects.create(subject=subject, body=body)
+    task.save()
 
-    # Запускаем асинхронную задачу
-    send_emails_task.delay(email_task.id)
+    for recipient in recipients:
+        email = Email.objects.create(
+            recipient=recipient,
+            task=task
+        )
+        email.save()
 
-    return JsonResponse({'Статус': 'успешно', 'идентификатор задания': email_task.id})
+        # Запускаем асинхронную задачу
+        send_emails_task.delay(email.id)
+
+    return JsonResponse({'Статус': 'успешно', 'идентификатор задания': task.id})
     
 
 def get_emails(request):
