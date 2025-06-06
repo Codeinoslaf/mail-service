@@ -8,18 +8,18 @@ def send_emails_task(email_id):
     email = Email.objects.get(id=email_id)
     try:
         send_mail(
-            email.task.subject,
-            email.task.body,
-            'admin@ar-ucheba.ru',
-            [email.recipient],
+            subject=email.task.subject,
+            message=email.task.body,
+            from_email='admin@ar-ucheba.ru',
+            recipient_list=[email.recipient],
             fail_silently=False,
         )
-        #email.status = Status.objects.get(name='Отправлено')
+        email.status = Status.objects.get(id=1)
         email.save()
 
-        print("-------------------------------------")
-        return f"Сообщение отправлено на "
+        return f"Письмо успешно отправлено"
 
     except Exception as e:
-
-        return f"Не удалось отрпавить сообщение {str(e)}"
+        email.status = Status.objects.get(id=2)
+        email.save()
+        return f"Ошибка при отправке письма {str(e)}"

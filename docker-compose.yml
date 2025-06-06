@@ -1,9 +1,20 @@
 services:
-  app:
-    build:
-      .
+#  app:
+#    build:
+#      .
+#    ports:
+#      - "8763:7777"
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "8763:7777"
+      - "5433:5432"
 
   rabbitmq:
     image: rabbitmq:3.10.7-management
@@ -23,3 +34,6 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
+
+volumes:
+  postgres_data:
