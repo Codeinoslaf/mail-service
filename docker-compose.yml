@@ -1,16 +1,4 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    depends_on:
-      - db
-      - rabbitmq
-    networks:
-      - my_network
-
   db:
     image: postgres:15
     volumes:
@@ -40,15 +28,17 @@ services:
     networks:
       - my_network
 
-  celery:
-    build: .
-    command: celery -A mailservice worker --loglevel=info # тут чото не так
+  app:
+    #build: .
+    image: mail-service-app:latest
     depends_on:
       - rabbitmq
       - db
     environment:
       - CELERY_BROKER_URL=amqp://user:pass@rabbitmq:5672//
-      - DJANGO_SETTINGS_MODULE=mailservice.settings # либо тут`
+      - DJANGO_SETTINGS_MODULE=mailservice.settings
+    ports:
+      - "8000:8000"
     networks:
       - my_network
 

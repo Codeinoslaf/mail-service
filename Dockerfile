@@ -6,4 +6,6 @@ COPY req.txt /app/
 RUN pip install --upgrade pip && pip install -r req.txt
 ADD . /app/
 WORKDIR /app/mail-service/
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+RUN chmod +x run.sh
+
+ENTRYPOINT ["/app/mail-service/run.sh"]
