@@ -1,5 +1,8 @@
 FROM python:3.12
 ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get install -y vim
+
 RUN mkdir /app
 WORKDIR /app
 COPY req.txt /app/

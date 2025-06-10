@@ -29,8 +29,8 @@ services:
       - my_network
 
   app:
-    #build: .
-    image: mail-service-app:latest
+    build: .
+    #image: mail-service-app:latest
     depends_on:
       - rabbitmq
       - db
