@@ -10,7 +10,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('send/', send_emails, name='send_emails'),
     path('get/', get_emails, name='get_emails'),
-    path('statuses/', StatusViewSet.as_view({'get': 'list'}), name='statuses'),
-    path('emails/', EmailViewSet.as_view({'get': 'list'}), name='emails'),
-    path('tasks/', TaskViewSet.as_view({'get': 'list'}), name='tasks'),
+    path('statuses/', StatusViewSet.as_view({'get': 'list', 'post': 'create'}), name='statuses'),
+    path('statuses/<int:pk>/', StatusViewSet.as_view({'get': 'retrieve'}), name='status-detail'),
+    path('emails/', EmailViewSet.as_view({'get': 'list', 'post': 'create'}), name='emails'),
+    path('emails/<int:pk>/', EmailViewSet.as_view({'get': 'retrieve'}), name='email-detail'),
+    path('tasks/', TaskViewSet.as_view({'get': 'list', 'post': 'create'}), name='tasks'),
+    path('tasks/<int:pk>/', TaskViewSet.as_view({'get': 'retrieve'}), name='task-detail'),
 ]
