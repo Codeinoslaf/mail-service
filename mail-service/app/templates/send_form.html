@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Отправить email</title>
+</head>
+<body>
+    <h1>Отправить email</h1>
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            <label>Получатели (через запятую):</label>
+            <input type="text" name="recipients" required>
+        </div>
+        <div>
+            <label>Тема:</label>
+            <input type="text" name="subject" required>
+        </div>
+        <div>
+            <label>Текст письма:</label>
+            <textarea name="body" required></textarea>
+        </div>
+        <button type="submit">Отправить</button>
+    </form>
+</body>
+</html>
