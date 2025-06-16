@@ -1,7 +1,4 @@
-from datetime import  datetime
-
 from django.db import models
-
 
 
 class Status(models.Model):
@@ -16,25 +13,31 @@ class Status(models.Model):
 class Task(models.Model):
     subject = models.CharField(max_length=255)
     body = models.TextField()
-    created_at = models.DateTimeField(default=datetime.now)
-    recipient_list = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = 'Задание'
         verbose_name_plural = 'Задания'
 
 
-
 class Email(models.Model):
-    recipient = models.TextField(help_text="Одна почта получателя")
+    recipient_list = models.TextField(help_text="Введите почты получателей") # не список на самом деле
     send_at = models.DateTimeField(auto_now_add=True)
     status = models.ForeignKey(Status, null=True, blank=True, on_delete=models.SET_NULL)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Почтовое письмо отправлено {self.recipient} {self.status.name}"
+        return f"Почтовое письмо отправлено на: {self.recipient_list} ---> {Status.name}"
 
     class Meta:
         verbose_name = 'Сообщение'
         verbose_name_plural = 'Сообщения'
 
+
+class Recipient(models.Model):
+    address = models.CharField(max_length=255)
+    tasks = models.ManyToManyField(Email, related_name="recipients")
+
+    class Meta:
+        verbose_name = 'Получатель'
+        verbose_name_plural = 'Получатели'

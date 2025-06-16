@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from rest_framework.decorators import api_view
 
@@ -13,20 +15,24 @@ def send_emails(request):
     task = Task.objects.create(subject=subject, body=body)
     task.save()
 
-    for recipient in recipients:
-        email = Email.objects.create(
-            recipient=recipient,
-            task=task
-        )
-        email.save()
 
-        # Запускаем асинхронную задачу
-        send_emails_task.delay(email.id)
+
+    for element in recipients:
+
+        if not Recipient.objects.filter(address=element).exists():
+            Recipient.objects.create(address=element).save()
+
+
+    email = Email.objects.create(
+        recipient_list=json.dumps(recipients),
+        task=task
+    )
+
+
+    email.save()
+    # Запускаем асинхронную задачу
+    send_emails_task.delay(email.id)
 
     return JsonResponse({'Статус': 'успешно', 'идентификатор задания': task.id})
-    
 
-def get_emails(request):
-
-    return JsonResponse({'Статус': 'успешно'})
 
