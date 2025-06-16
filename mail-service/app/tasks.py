@@ -4,20 +4,20 @@ from celery import shared_task
 from django.core.mail import send_mail
 from .models import Email, Status
 
-
 @shared_task
 def send_emails_task(email_id):
+
     email = Email.objects.get(id=email_id)
 
-    recipients = json.loads(email.recipient_list) # перевод в список
+    recipients = email.recipient_list.all()
+    recipient_emails = [recipient.address for recipient in recipients]
 
     try:
-
         send_mail(
             subject=email.task.subject,
             message=email.task.body,
             from_email='admin@ar-ucheba.ru',
-            recipient_list=recipients,
+            recipient_list=recipient_emails,
             fail_silently=False,
         )
 
