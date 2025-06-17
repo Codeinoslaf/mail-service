@@ -43,7 +43,7 @@ class Email(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Почтовое письмо отправлено на: {[recipient.address + " " for recipient in self.recipient_list.all()]}"
+        return f"Почтовое письмо отправлено на: {[recipient.address + ' ' for recipient in self.recipient_list.all()]}"
 
     class Meta:
         verbose_name = 'Сообщение'
