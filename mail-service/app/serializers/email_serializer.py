@@ -1,11 +1,14 @@
 from rest_framework import serializers
-from app.models import Email
+from app.models import *
 from .recipient_serializer import RecipientSerializer
 from .status_serializer import StatusSerializer
 from .task_serializer import TaskSerializer
+from drf_writable_nested import WritableNestedModelSerializer
 
 
-class EmailSerializer(serializers.ModelSerializer):
+class EmailSerializer(WritableNestedModelSerializer,
+                      serializers.ModelSerializer):
+
     send_at = serializers.SerializerMethodField()
     status = StatusSerializer()
     task = TaskSerializer()
