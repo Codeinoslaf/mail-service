@@ -79,7 +79,7 @@ DATABASES = {
         'HOST': 'db',
         'PORT': '5432',
         #'HOST': 'localhost',
-        #'PORT': '5433',
+        #'PORT': '5432',
     }
 }
 
@@ -128,7 +128,7 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Cellery
-CELERY_BROKER_URL = 'amqp://user:pass@rabbitmq:5672//'
+CELERY_BROKER_URL = 'amqp://user:pass@mail-service-rabbitmq-1:5672//'
 #CELERY_BROKER_URL = 'amqp://user:pass@localhost:5672//'
 
 CELERY_RESULT_BACKEND = 'rpc://'
