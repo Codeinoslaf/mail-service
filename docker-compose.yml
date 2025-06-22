@@ -45,7 +45,6 @@ services:
 networks:
   my_network:  # Compose создаст её автоматически
     driver: bridge
-    name: my_network
 
 volumes:
   postgres_data:
