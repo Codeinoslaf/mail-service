@@ -10,7 +10,3 @@ db и rabbitmq -> должны быть подняты в docker'e
 запускаем программу + в терминале прописываем:
 
 celery -A mailservice worker --loglevel=info
-
-Чтобы запустить приложения на сервере:
-
-                 ?
