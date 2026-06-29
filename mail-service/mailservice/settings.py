@@ -1,5 +1,5 @@
 from pathlib import Path
-#это строчка чтобы узнать работает ли CI/CD
+#это строчка чтобы узнать работает ли CI/CD ---> тестим
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
